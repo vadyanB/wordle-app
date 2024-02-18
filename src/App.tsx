@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+
 import './App.scss';
+import { Board } from './components/Board';
 
 function App() {
+  const [mysteryWord, setMysteryWord] = useState<string>('')
+
+  useEffect(() => {
+    fetch('https://random-word-api.herokuapp.com/word?length=5')
+      .then(res => res.json())
+      .then(word => setMysteryWord(word[0]))
+  }, [setMysteryWord])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {mysteryWord && <Board solution={mysteryWord}/>}
     </div>
   );
 }
