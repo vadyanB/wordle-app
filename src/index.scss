@@ -1,0 +1,47 @@
+$font-color: #FFFFFF;
+$border-color: #3A3A3C;
+$gray: #3A3A3C;
+$yellow: #BEA11F;
+$green: #538D4E;
+
+.row-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+
+  .row {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+
+    .cell {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $font-color;
+      border: 2px solid $border-color;
+      border-radius: 4px;
+      box-sizing: border-box;
+      text-transform: uppercase;
+
+      &.green {
+        background-color: green;
+        border-color: green;
+      }
+      &.yellow {
+        background-color: orange;
+        border-color: orange;
+      }
+      &.gray {
+        background-color: grey;
+        border-color: grey;
+      }
+    }
+  }
+}
