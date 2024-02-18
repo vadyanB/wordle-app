@@ -3,12 +3,28 @@ import { useState } from 'react';
 import { LetterColor } from '../shared/models/color.enum';
 import { Answer } from '../shared/models/answer';
 
-export const useBoard = ({mystery}: { mystery: string }) => {
-  const [turn, setTurn] = useState<number>(0)
-  const [currentWord, setCurrentWord] = useState<string[]>([])
-  const [answers, setAnswers] = useState<Answer[][]>([...Array(5)])
-  const [isWin, setIsWin] = useState<boolean>(false)
+const defaultStates = {
+  turn: 0,
+  currentWord: [],
+  answers: [...Array(5)],
+  isWin: false,
+  isOpenModal: false,
+}
 
+export const useBoard = ({mystery}: { mystery: string }) => {
+  const [turn, setTurn] = useState<number>(defaultStates.turn);
+  const [currentWord, setCurrentWord] = useState<string[]>(defaultStates.currentWord);
+  const [answers, setAnswers] = useState<Answer[][]>(defaultStates.answers);
+  const [isWin, setIsWin] = useState<boolean>(defaultStates.isWin);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(defaultStates.isOpenModal);
+
+  const setStateToDefault = () => {
+    setTurn(defaultStates.turn);
+    setCurrentWord(defaultStates.currentWord);
+    setAnswers(defaultStates.answers);
+    setIsWin(defaultStates.isWin);
+    setIsOpenModal(defaultStates.isOpenModal);
+  }
   const formatAnswer = () => {
     const mysteryArray = [...mystery];
     // create default answer
@@ -46,6 +62,12 @@ export const useBoard = ({mystery}: { mystery: string }) => {
     setAnswers(prevAnswers => {
       let newAnswers = [...prevAnswers]
       newAnswers[turn] = formattedAnswer;
+
+      const isWin = formattedAnswer.every(({color}) => color === LetterColor.GREEN);
+      if (isWin) {
+        setIsWin(isWin);
+        setIsOpenModal(true);
+      }
       return newAnswers;
     })
 
@@ -54,7 +76,6 @@ export const useBoard = ({mystery}: { mystery: string }) => {
   }
 
   const handleKeyup = ({key}: { key: string }) => {
-    debugger
     switch (true) {
       case (key === 'Backspace'): {
         return setCurrentWord(prev => prev.slice(0, -1));
@@ -63,18 +84,12 @@ export const useBoard = ({mystery}: { mystery: string }) => {
         return setCurrentWord(prev => [...prev, key]);
       }
       case (key === 'Enter'): {
-        if (isWin) {
-          // Add logic for win case
-          return;
-        }
-
-        if (turn + 1 > 5) {
-          // Add logic for lose case
-          return;
-        }
-
         if (currentWord.length !== 5) {
           return;
+        }
+
+        if (turn === 4) {
+          return setIsOpenModal(true);
         }
 
         const formattedAnswer = formatAnswer()
@@ -86,5 +101,5 @@ export const useBoard = ({mystery}: { mystery: string }) => {
     }
   }
 
-  return {turn, currentWord, answers, isWin, handleKeyup}
+  return {turn, currentWord, answers, isWin, isOpenModal, setIsOpenModal, setStateToDefault, handleKeyup};
 }

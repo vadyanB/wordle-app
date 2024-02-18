@@ -3,44 +3,115 @@ $border-color: #3A3A3C;
 $gray: #3A3A3C;
 $yellow: #BEA11F;
 $green: #538D4E;
+$light-gray: #FCFCFC;
+$btn-color: #007AFF;
 
-.row-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 32px;
+.board-wrapper {
+  .row-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
 
-  .row {
+    .row {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      gap: 10px;
+
+      .cell {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $font-color;
+        border: 2px solid $border-color;
+        border-radius: 4px;
+        box-sizing: border-box;
+        text-transform: uppercase;
+
+        &.green {
+          background-color: green;
+          border-color: green;
+        }
+
+        &.yellow {
+          background-color: orange;
+          border-color: orange;
+        }
+
+        &.gray {
+          background-color: grey;
+          border-color: grey;
+        }
+      }
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
-    text-align: center;
-    gap: 10px;
+    align-items: center;
 
-    .cell {
-      width: 70px;
-      height: 70px;
+    .modal {
+      width: 260px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $font-color;
-      border: 2px solid $border-color;
-      border-radius: 4px;
+      flex-direction: column;
+      background: #3F3A3A 60%;
+      padding: 20px 16px 16px 16px;
+      border-radius: 10px;
+      text-align: center;
+      color: $light-gray;
+      font-family: 'SF UI Display', sans-serif;
       box-sizing: border-box;
-      text-transform: uppercase;
 
-      &.green {
-        background-color: green;
-        border-color: green;
+      .modal-content {
+        display: flex;
+        flex-direction: column;
+
+        .modal-emoji {
+          font-size: 64px;
+          margin-bottom: 20px;
+          width: 88px;
+          height: 88px;
+          align-self: center;
+        }
+
+        .title {
+          margin-bottom: 20px;
+          font-size: 13px;
+          line-height: 16px;
+          font-weight: 600;
+        }
+
+        .desc {
+          margin-bottom: 20px;
+          font-size: 11px;
+          line-height: 14px;
+          font-weight: 400;
+        }
       }
-      &.yellow {
-        background-color: orange;
-        border-color: orange;
-      }
-      &.gray {
-        background-color: grey;
-        border-color: grey;
+
+      .modal-button {
+        display: flex;
+        justify-content: center;
+        background-color: $btn-color;
+        color: $font-color;
+        padding: 10px;
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: 400;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
       }
     }
   }
